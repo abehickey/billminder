@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+{% block content %}
+
+    {% for post in posts.items %}
+        <article class="media content-section">
+
+             {% if post.amount_paid >= post.amount_due %}
+            <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/paid.jpg') }}">
+            {% else %}
+            <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/notpaid.jpg') }}">
+            {% endif %}
+          <div class="media-body">
+            <div class="article-metadata">
+              <a class="mr-2" href="{{ url_for('posts.post', post_id=post.id) }}">{{ post.title }}</a>
+
+            </div>
+              <table>
+                  <tr>
+                      <td style="Width:100px"><bold>Date Due:</bold></td>
+                      <td style="Width:200px">{{ post.date_due }}</td>
+
+                      <td style="Width:120px"><bold>Amount Due:</bold></td>
+                      <td>{{ "{0:.2f}".format(post.amount_due) }}</td>
+                  </tr>
+                  <tr>
+                      <td><bold>Date Paid:</bold></td>
+                      <td>{{ post.date_paid }}</td>
+                       <td><bold>Amount Paid:</bold></td>
+                      <td>{{ "{0:.2f}".format(post.amount_paid) }}</td>
+                  </tr>
+              </table>
+          </div>
+        </article>
+    {% endfor %}
+    {% for page_num in posts.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+      {% if page_num %}
+        {% if posts.page == page_num %}
+          <a class="btn btn-info mb-4" href="{{ url_for('users.home', page=page_num) }}">{{ page_num }}</a>
+        {% else %}
+          <a class="btn btn-outline-info mb-4" href="{{ url_for('users.home', page=page_num) }}">{{ page_num }}</a>
+        {% endif %}
+      {% else %}
+        ...
+      {% endif %}
+    {% endfor %}
+{% endblock content %}

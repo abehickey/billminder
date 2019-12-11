@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+{% block content %}
+
+        <div class="row justify-content-center">
+            <div class="col">
+                <h2>Bill Minder</h2>
+            </div>
+        </div>
+        <div class="row justify-items-center">
+            <div class="col justify-items-center">
+            <div class="media media-center">
+              <img src="/static/indeximg.jpg" class="img-responsive">
+            </div>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col text-center">
+                <h1>Bill Minder</h1>
+                <h4>Keep Track Of Your Bills!</h4>
+                <h2><a class="signup" href="{{ url_for('users.register') }}"  style="color: Magenta">Sign Up Now</a></h2>
+            </div>
+
+
+{% endblock %}

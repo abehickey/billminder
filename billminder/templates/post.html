@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+{% block content %}
+<article class="media content-section" xmlns="http://www.w3.org/1999/html">
+    {% if post.amount_paid >= post.amount_due %}
+    <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/paid.jpg') }}">
+    {% else %}
+    <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/notpaid.jpg') }}">
+    {% endif %}
+    <div class="media-body">
+      <div class="article-metadata">
+
+        <small class="text-muted">Date Created: {{ post.date_posted.strftime('%Y-%m-%d') }}</small>
+        {% if post.author == current_user %}
+          <div>
+            <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('posts.update_post', post_id=post.id) }}">Update</a>
+            <button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal">Delete</button>
+            <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('users.home') }}">Home</a>
+          </div>
+        {% endif %}
+      </div>
+      <h5 class="article-title">{{ post.title }}</h5>
+      <p class="article-content">Amount Due: {{ "{0:.2f}".format(post.amount_due) }}</p>
+      <p class="article-content">Date Due: {{ post.date_due }}</p>
+      <p class="article-content">Amount Paid: {{ "{0:.2f}".format(post.amount_paid) }}</p>
+      <p class="article-content">Date Paid: {{ post.date_paid }}</p>
+      <p class="article-content">Paid From: {{ post.paid_from }}</p>
+      <p class="article-content">Confirmation: {{ post.confirmation }}</p>
+      <p class="article-content">Notes:
+      {{ post.content }}</p>
+    </div>
+  </article>
+  <!-- Modal -->
+  <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="deleteModalLabel">Delete Post?</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <form action="{{ url_for('posts.delete_post', post_id=post.id) }}" method="POST">
+            <input class="btn btn-danger" type="submit" value="Delete">
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
